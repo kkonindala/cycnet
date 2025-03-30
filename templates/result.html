@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyclone Effect Prediction</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Centered Link Styling */
+        a {
+            display: inline-block;
+            color: #ffffff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Centering Additional Content (Optional) */
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.3rem;
+            margin-top: 10px;
+        }
+
+        h2 {
+            color: #0c72d8;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #5d6d7e;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+
+        /* Image Styling */
+        img {
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Link Styling */
+        a {
+            display: inline-block;
+            text-align: center;
+            color: #ffffff;
+            background-color: #3498db;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+
+        /* Container Styling */
+        body > * {
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.2rem;
+            }
+
+            a {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+                text-align: center;
+            }
+        }
+
+        /* Intensity Box Styling */
+        .intensity-box {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px auto;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .intensity-low {
+            background-color: #e0f7fa;
+            color: #1565c0;
+        }
+
+        .intensity-moderate {
+            background-color: #fff9c4;
+            color: #f9a825;
+        }
+
+        .intensity-high {
+            background-color: #ffe0b2;
+            color: #d32f2f;
+        }
+
+        .intensity-very-low {
+            background-color: #e0e0e0;
+            color: #424242;
+        }
+
+        /* Description Styling */
+        .cyclone-description {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 1.1em; /* Increased font size */
+            font-weight: bold;
+        }
+
+        .cyclone-description.low {
+            color: #1565c0;
+        }
+
+        .cyclone-description.moderate {
+            color: #f9a825;
+        }
+
+        .cyclone-description.high {
+            color: #d32f2f;
+        }
+
+        .cyclone-description.very-low {
+            color: #424242;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cyclone Effect Prediction Result</h1>
+    <h2>Cyclone Effect: {{ cyclone_effect_percentage }} knots</h2>
+
+    {% if cyclone_effect_percentage > 96 %}
+        <div class="intensity-box intensity-high">Intensity: High</div>
+        <div class="cyclone-description cyclone-description.high">Cyclone rapidly intensifies posing severe threats with destructive winds.</div>
+    {% elif 61 <= cyclone_effect_percentage <= 95 %}
+        <div class="intensity-box intensity-moderate">Intensity: Moderate</div>
+        <div class="cyclone-description cyclone-description.moderate">Cyclone strengths, causing noticeable winds and moderate damage.</div>
+    {% elif 34 <= cyclone_effect_percentage <= 60 %}
+        <div class="intensity-box intensity-low">Intensity: Low</div>
+        <div class="cyclone-description cyclone-description.low">Cyclone forms with weak winds and minimal damage potential.</div>
+    {% else %}
+        <div class="intensity-box intensity-very-low">Intensity: Very Low</div>
+        <div class="cyclone-description cyclone-description.very-low">Very Low, a tropical depression with very weak winds</div>
+    {% endif %}
+
+    <h3>Uploaded Image:</h3>
+    <img src="{{ url_for('uploaded_file', filename=image_file) }}" alt="Uploaded Image" width="500">
+
+    <br><br> 
+    <a href="/">Upload another image</a>
+</body>
+</html>
