@@ -7,15 +7,16 @@ WORKDIR /app
 # Copy project files
 COPY . /app
 
+# Install dependencies and download model
 RUN pip install --upgrade pip setuptools wheel
-
-# Install dependencies
 RUN pip install --no-cache-dir --default-timeout=600 -r requirements.txt
+
+# Download the model from Google Drive
+RUN pip install gdown && \
+    gdown "https://drive.google.com/uc?id=1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq" -O /app/Model.h5
 
 # Expose the port Flask runs on
 EXPOSE 5000
-RUN pip install gdown && \
-    gdown "https://drive.google.com/uc?id=1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq" -O /app/model.h5
 
 # Start the Flask app with Gunicorn
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]

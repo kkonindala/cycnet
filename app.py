@@ -1,27 +1,28 @@
+import os
 from flask import Flask, request, render_template, send_from_directory
 import tensorflow as tf
 import numpy as np
 from PIL import Image
 import keras
-import os
 import gdown
+
+# Print versions for debugging
 print(keras.__version__)
 print(tf.__version__)
+
 # Initialize Flask app
 app = Flask(__name__)
 
 # Load the trained model
-from tensorflow.keras.layers import SeparableConv2D
-#file_id = https://drive.google.com/file/d/1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq/view?usp=sharing
-file_id = "1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq"
-download_url = "https://drive.google.com/uc?id=1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq"
+'''file_id = "1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq"
+download_url = f"https://drive.google.com/uc?id={"1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq"}"'''
 model_path = "./Model.h5"
-if not os.path.exists(model_path):
-    gdown.download(download_url, model_path, quiet=False)
+
+'''if not os.path.exists(model_path):
+    gdown.download(download_url, model_path, quiet=False)'''
 
 # Load the model with custom objects if needed
-model = tf.keras.models.load_model('./Model.h5') 
-
+model = tf.keras.models.load_model(model_path)
 
 # Define the path for saving uploaded images
 UPLOAD_FOLDER = './uploads'
@@ -56,7 +57,7 @@ def index():
 
             # Make a prediction
             prediction = model.predict(input_image, verbose=1).round(2)
-            cyclone_effect_percentage = prediction[0][0]# Confidence for class 0 as percentage
+            cyclone_effect_percentage = prediction[0][0]  # Confidence for class 0 as percentage
 
             # Render the result page with image and prediction
             return render_template('result.html', image_file=file.filename, cyclone_effect_percentage=cyclone_effect_percentage)
@@ -68,4 +69,5 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Railway assigns a PORT environment variable
+    app.run(debug=True, host="0.0.0.0", port=port)
