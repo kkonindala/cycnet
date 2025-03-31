@@ -12,9 +12,7 @@ RUN pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir --default-timeout=600 -r requirements.txt
 
 # Download the model from Google Drive
-RUN pip install gdown && \
-    gdown "https://drive.google.com/uc?id=1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq" -O /app/Model.h5
-
+RUN pip install gdown && gdown --id 1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq -O /app/Model.h5
 # Expose the port Flask runs on
 EXPOSE 5000
 
