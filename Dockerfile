@@ -1,5 +1,5 @@
-# Use Python 3.7 image
-FROM python:3.7
+# Use a lightweight Python image
+FROM python:3.7-slim
 
 # Set the working directory
 WORKDIR /app
@@ -7,11 +7,13 @@ WORKDIR /app
 # Copy project files
 COPY . /app
 
+RUN pip install --upgrade pip setuptools wheel
+
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 (or the port your app runs on)
+# Expose the port Flask runs on
 EXPOSE 5000
 
-# Run Flask app
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# Start the Flask app with Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
