@@ -1,4 +1,4 @@
 venv/
-Model.h5
+#Model.h5
 __pycache__/
 uploads/ 
