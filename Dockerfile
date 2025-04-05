@@ -13,8 +13,12 @@ RUN pip install --no-cache-dir --default-timeout=600 -r requirements.txt
 
 # Download the model from Google Drive
 RUN pip install gdown && gdown --id 1fxlJsdv5ncJsdfv4in6YYxKgjIodmWdq -O /app/Model.h5
-# Expose the port Flask runs on
-EXPOSE 5000
 
-# Start the Flask app with Gunicorn
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "app:app"]
+# Set the default port for Cloud Run
+ENV PORT 8080
+
+# Expose the port (optional, for local Docker - will be $PORT)
+EXPOSE $PORT
+
+# Start the Flask app with Gunicorn, using the PORT environment variable
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:$PORT", "app:app"]
