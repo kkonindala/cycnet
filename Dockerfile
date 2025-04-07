@@ -21,4 +21,4 @@ ENV PORT 8080
 EXPOSE $PORT
 
 # Start the Flask app with Gunicorn, using the PORT environment variable
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:$PORT", "app:app"]
+CMD ["/bin/bash", "-c", "gunicorn -w 1 -b 0.0.0.0:$PORT app:app"]
